@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Blood Alcohol Calculator</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="my_weight_is">My weight is</string>
+    <string name="kg">Kg.</string>
+    <string name="next">Next</string>
+    <string name="my_gender_is">My gender is…</string>
+    <string name="previous">Previous</string>
+    <string name="add_drink">Add Drink</string>
+</resources>
