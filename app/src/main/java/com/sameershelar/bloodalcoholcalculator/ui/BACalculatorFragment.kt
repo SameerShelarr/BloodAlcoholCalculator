@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.sameershelar.bloodalcoholcalculator.data.Gender
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentBACalculatorBinding
 import com.sameershelar.bloodalcoholcalculator.vm.BACalculatorViewModel
@@ -31,6 +33,12 @@ class BACalculatorFragment : Fragment() {
     ): View {
         binding = FragmentBACalculatorBinding.inflate(layoutInflater)
 
+        binding.apply {
+            addDrinkFab.setOnClickListener {
+                findNavController().navigate(BACalculatorFragmentDirections.actionBACCalculatorFragmentToAddDrinkBottomSheetDialog())
+            }
+        }
+
         lifecycleScope.launchWhenCreated {
             viewModel.updateIsPreferencesSelected(true)
         }
@@ -38,8 +46,6 @@ class BACalculatorFragment : Fragment() {
         viewModel.getPreferencesFlow().observe(viewLifecycleOwner) {
             weight = it.weight
             gender = it.gender
-
-            Toast.makeText(context, "$weight and ${gender.name}", Toast.LENGTH_SHORT).show()
         }
 
         return binding.root

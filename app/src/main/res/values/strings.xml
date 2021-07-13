@@ -11,4 +11,13 @@
     <string name="estimated_blood_alcohol_content">Estimated Blood Alcohol Content</string>
     <string name="estimated_time_until_fully_sober">Estimated Time Until Fully Sober</string>
     <string name="legal_limit_0_03">Legal Limit: 0.03%</string>
+    <string name="add">Add</string>
+    <string name="beer">Beer</string>
+    <string name="vodka">Vodka</string>
+    <string name="whisky">Whisky</string>
+    <string name="rum">Rum</string>
+    <string name="wine">Wine</string>
+    <string name="gin">Gin</string>
+    <string name="brandy">Brandy</string>
+    <string name="started_at_time">Select start time:</string>
 </resources>

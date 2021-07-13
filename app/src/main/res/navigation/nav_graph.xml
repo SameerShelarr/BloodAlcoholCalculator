@@ -34,5 +34,14 @@
         android:id="@+id/BACCalculatorFragment"
         android:name="com.sameershelar.bloodalcoholcalculator.ui.BACalculatorFragment"
         android:label="fragment_b_a_c_calculator"
-        tools:layout="@layout/fragment_b_a_calculator" />
+        tools:layout="@layout/fragment_b_a_calculator" >
+        <action
+            android:id="@+id/action_BACCalculatorFragment_to_addDrinkBottomSheetDialog"
+            app:destination="@id/addDrinkBottomSheetDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/addDrinkBottomSheetDialog"
+        android:name="com.sameershelar.bloodalcoholcalculator.ui.AddDrinkBottomSheetDialog"
+        android:label="fragment_add_drink_bottom_sheet_dialog"
+        tools:layout="@layout/fragment_add_drink_bottom_sheet_dialog" />
 </navigation>
