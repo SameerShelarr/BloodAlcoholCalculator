@@ -12,7 +12,6 @@ import javax.inject.Inject
 @HiltViewModel
 class GenderSelectionViewModel @Inject constructor(
     private val preferencesManager: PreferencesManager,
-    private val state: SavedStateHandle,
 ) : ViewModel() {
     fun onGenderSelected(gender: Gender) = viewModelScope.launch {
         preferencesManager.updateGender(gender)

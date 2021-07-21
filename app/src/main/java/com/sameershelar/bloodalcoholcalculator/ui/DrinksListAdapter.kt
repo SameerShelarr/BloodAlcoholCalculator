@@ -11,7 +11,7 @@ import com.sameershelar.bloodalcoholcalculator.R
 import com.sameershelar.bloodalcoholcalculator.data.Drink
 
 class DrinksListAdapter(
-    private val drinksList: List<Drink>,
+    private var drinksList: MutableList<Drink>,
 ) :
     RecyclerView.Adapter<DrinksListAdapter.ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -33,6 +33,14 @@ class DrinksListAdapter(
     }
 
     override fun getItemCount(): Int = drinksList.size
+
+    fun setData(drinksList: List<Drink>) {
+        with(this.drinksList){
+            clear()
+            addAll(drinksList)
+        }
+        notifyDataSetChanged()
+    }
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {

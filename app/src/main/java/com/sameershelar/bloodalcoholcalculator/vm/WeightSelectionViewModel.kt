@@ -13,7 +13,6 @@ import javax.inject.Inject
 @HiltViewModel
 class WeightSelectionViewModel @Inject constructor(
     private val preferencesManager: PreferencesManager,
-    private val state: SavedStateHandle,
 ) : ViewModel() {
 
     fun onWeightSelected(weight: Int) = viewModelScope.launch {

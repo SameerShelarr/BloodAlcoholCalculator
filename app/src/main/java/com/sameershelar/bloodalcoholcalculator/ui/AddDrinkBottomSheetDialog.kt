@@ -6,29 +6,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sameershelar.bloodalcoholcalculator.R
-import com.sameershelar.bloodalcoholcalculator.data.Drink
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentAddDrinkBottomSheetDialogBinding
 import com.sameershelar.bloodalcoholcalculator.utils.Constants.TIME_FORMAT_0
+import com.sameershelar.bloodalcoholcalculator.vm.AddDrinksViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+@AndroidEntryPoint
 class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentAddDrinkBottomSheetDialogBinding
     private lateinit var adapter: DrinksListAdapter
+    private val viewModel: AddDrinksViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentAddDrinkBottomSheetDialogBinding.inflate(layoutInflater)
-        adapter = DrinksListAdapter(getDummyList())
+        adapter = DrinksListAdapter(arrayListOf())
 
         binding.apply {
             bottomSheetLayout.layoutParams.height =
@@ -95,109 +96,11 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
             drinksRecyclerView.adapter = adapter
         }
 
+        viewModel.getAllDrinksLive().observe(viewLifecycleOwner) {
+            adapter.setData(it)
+        }
+
         return binding.root
-    }
-
-    private fun getDummyList(): List<Drink> {
-        val drinksList = arrayListOf<Drink>()
-        drinksList.add(Drink(
-            id = 0,
-            name = "Kingfisher Strong",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Tuborg Strong",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "LP Strong",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-        drinksList.add(Drink(
-            id = 0,
-            name = "Budweiser Magnum",
-            volume = 650,
-            abv = 8
-        ))
-
-        return drinksList
     }
 
     private fun onTimeSet(hourOfDay: Int, minute: Int) {
