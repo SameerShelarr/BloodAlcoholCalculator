@@ -10,7 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sameershelar.bloodalcoholcalculator.R
+import com.sameershelar.bloodalcoholcalculator.data.Drink
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentAddDrinkBottomSheetDialogBinding
+import com.sameershelar.bloodalcoholcalculator.utils.Constants
+import com.sameershelar.bloodalcoholcalculator.utils.Constants.DrinkType.*
 import com.sameershelar.bloodalcoholcalculator.utils.Constants.TIME_FORMAT_0
 import com.sameershelar.bloodalcoholcalculator.vm.AddDrinksViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +25,7 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentAddDrinkBottomSheetDialogBinding
     private lateinit var adapter: DrinksListAdapter
+    private lateinit var drinksList: List<Drink>
     private val viewModel: AddDrinksViewModel by viewModels()
 
     override fun onCreateView(
@@ -51,35 +55,40 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
             }
 
             chipGroup.setOnCheckedChangeListener { _, checkedId ->
-                when (checkedId) {
-                    R.id.beer_chip -> {
+                adapter.setData(
+                    when (checkedId) {
+                        R.id.beer_chip -> {
+                            drinksList.filter { drink -> drink.type == BEER }
+                        }
 
+                        R.id.whisky_chip -> {
+                            drinksList.filter { drink -> drink.type == WHISKY }
+                        }
+
+                        R.id.vodka_chip -> {
+                            drinksList.filter { drink -> drink.type == VODKA }
+                        }
+
+                        R.id.rum_chip -> {
+                            drinksList.filter { drink -> drink.type == RUM }
+                        }
+                        R.id.wine_chip -> {
+                            drinksList.filter { drink -> drink.type == WINE }
+                        }
+
+                        R.id.gin_chip -> {
+                            drinksList.filter { drink -> drink.type == GIN }
+                        }
+
+                        R.id.brandy_chip -> {
+                            drinksList.filter { drink -> drink.type == BRANDY }
+                        }
+
+                        else -> {
+                            arrayListOf()
+                        }
                     }
-
-                    R.id.whisky_chip -> {
-
-                    }
-
-                    R.id.vodka_chip -> {
-
-                    }
-
-                    R.id.rum_chip -> {
-
-                    }
-                    R.id.wine_chip -> {
-
-                    }
-
-                    R.id.gin_chip -> {
-
-                    }
-
-                    R.id.brandy_chip -> {
-
-                    }
-
-                }
+                )
             }
 
             incrementButton.setOnClickListener {
@@ -97,7 +106,9 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
         }
 
         viewModel.getAllDrinksLive().observe(viewLifecycleOwner) {
-            adapter.setData(it)
+            drinksList = it
+            val beerList = drinksList.filter { drink -> drink.type == BEER }
+            adapter.setData(beerList)
         }
 
         return binding.root

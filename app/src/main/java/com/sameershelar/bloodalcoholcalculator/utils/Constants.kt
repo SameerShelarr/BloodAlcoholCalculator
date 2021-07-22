@@ -8,5 +8,9 @@ object Constants {
         BEER,
         WHISKY,
         VODKA,
+        RUM,
+        WINE,
+        GIN,
+        BRANDY,
     }
 }
