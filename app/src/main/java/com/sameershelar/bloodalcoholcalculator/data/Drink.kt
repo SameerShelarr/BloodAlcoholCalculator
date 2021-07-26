@@ -1,9 +1,12 @@
 package com.sameershelar.bloodalcoholcalculator.data
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.sameershelar.bloodalcoholcalculator.utils.Constants.DrinkType
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "drink_table")
 data class Drink(
     val name: String,
@@ -15,4 +18,4 @@ data class Drink(
     var isSelected: Boolean = false,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-)
+) : Parcelable

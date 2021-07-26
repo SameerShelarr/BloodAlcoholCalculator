@@ -28,16 +28,89 @@ abstract class BACDatabase: RoomDatabase() {
             applicationScope.launch {
                 //Adding Beer's
                 dao.insert(Drink(name = "Tuborg Strong", type = BEER, volume = 650, abv = 8.0))
+                dao.insert(Drink(name = "Corona Extra", type = BEER, volume = 355, abv = 4.6))
                 dao.insert(Drink(name = "Kingfisher Strong", type = BEER, volume = 650, abv = 8.0))
                 dao.insert(Drink(name = "LP Strong", type = BEER, volume = 650, abv = 8.0))
-                dao.insert(Drink(name = "Budweiser Strong", type = BEER, volume = 650, abv = 8.0))
+                dao.insert(Drink(name = "Budweiser Premium", type = BEER, volume = 650, abv = 5.0))
+                dao.insert(Drink(name = "Carlsberg Smooth", type = BEER, volume = 650, abv = 4.5))
+                dao.insert(Drink(name = "Carlsberg Elephant", type = BEER, volume = 650, abv = 7.2))
+                dao.insert(Drink(name = "Bira Blonde", type = BEER, volume = 650, abv = 4.5))
+                dao.insert(Drink(name = "Bira White", type = BEER, volume = 650, abv = 4.7))
+                dao.insert(Drink(name = "Foster's Lager", type = BEER, volume = 650, abv = 4.0))
+                dao.insert(Drink(name = "Heineken Lager", type = BEER, volume = 650, abv = 5.0))
+                dao.insert(Drink(name = "Budweiser Magnum", type = BEER, volume = 650, abv = 8.0))
+                dao.insert(Drink(name = "Tuborg Classic", type = BEER, volume = 650, abv = 6.7))
+                dao.insert(Drink(name = "Tuborg Green", type = BEER, volume = 650, abv = 4.6))
+                dao.insert(Drink(name = "Miller High Life", type = BEER, volume = 650, abv = 4.6))
+                dao.insert(Drink(name = "Miller Ace Strong", type = BEER, volume = 650, abv = 8.0))
+                dao.insert(Drink(name = "Royal Challenge Premium Lager",
+                    type = BEER,
+                    volume = 650,
+                    abv = 5.0))
+                dao.insert(Drink(name = "Beck’s Ice", type = BEER, volume = 650, abv = 8.0))
+
+                dao.insert(Drink(name = "Tuborg Strong Pint/Can",
+                    type = BEER,
+                    volume = 330,
+                    abv = 8.0))
+                dao.insert(Drink(name = "Tuborg Strong Can", type = BEER, volume = 500, abv = 8.0))
+                dao.insert(Drink(name = "Kingfisher Strong Pint/Can",
+                    type = BEER,
+                    volume = 330,
+                    abv = 8.0))
+                dao.insert(Drink(name = "Kingfisher Strong Can",
+                    type = BEER,
+                    volume = 500,
+                    abv = 8.0))
+                dao.insert(Drink(name = "LP Strong Can", type = BEER, volume = 500, abv = 8.0))
+                dao.insert(Drink(name = "Budweiser Premium Pint/Can",
+                    type = BEER,
+                    volume = 500,
+                    abv = 5.0))
+                dao.insert(Drink(name = "Carlsberg Elephant", type = BEER, volume = 500, abv = 7.2))
+                dao.insert(Drink(name = "Carlsberg Smooth", type = BEER, volume = 500, abv = 4.5))
+                dao.insert(Drink(name = "Bira Blonde", type = BEER, volume = 500, abv = 4.5))
+                dao.insert(Drink(name = "Bira White", type = BEER, volume = 500, abv = 4.7))
+                dao.insert(Drink(name = "Foster's Lager", type = BEER, volume = 500, abv = 4.0))
+                dao.insert(Drink(name = "Heineken Lager", type = BEER, volume = 500, abv = 5.0))
+                dao.insert(Drink(name = "Budweiser Magnum Can",
+                    type = BEER,
+                    volume = 500,
+                    abv = 8.0))
+                dao.insert(Drink(name = "Tuborg Classic Pint/Can",
+                    type = BEER,
+                    volume = 330,
+                    abv = 6.7))
+                dao.insert(Drink(name = "Tuborg Classic Can", type = BEER, volume = 500, abv = 6.7))
+                dao.insert(Drink(name = "Tuborg Green Pint/Can",
+                    type = BEER,
+                    volume = 330,
+                    abv = 4.6))
+                dao.insert(Drink(name = "Tuborg Green Can", type = BEER, volume = 500, abv = 4.6))
+                dao.insert(Drink(name = "Miller High Life", type = BEER, volume = 500, abv = 4.6))
+                dao.insert(Drink(name = "Miller Ace Strong", type = BEER, volume = 500, abv = 8.0))
+                dao.insert(Drink(name = "Corona Light", type = BEER, volume = 355, abv = 4.1))
+                dao.insert(Drink(name = "Hoegaarden", type = BEER, volume = 330, abv = 4.9))
+                dao.insert(Drink(name = "Royal Challenge Premium Lager",
+                    type = BEER,
+                    volume = 330,
+                    abv = 4.9))
+                dao.insert(Drink(name = "Beck’s Ice Can", type = BEER, volume = 500, abv = 8.0))
+
 
                 //Adding Whisky's
                 dao.insert(Drink(name = "Royal Stag", type = WHISKY, volume = 180, abv = 48.8))
-                dao.insert(Drink(name = "Officer's Choice", type = WHISKY, volume = 180, abv = 42.8))
+                dao.insert(Drink(name = "Officer's Choice",
+                    type = WHISKY,
+                    volume = 180,
+                    abv = 42.8))
                 dao.insert(Drink(name = "Blenders Pride", type = WHISKY, volume = 180, abv = 42.8))
                 dao.insert(Drink(name = "Imperial Blue", type = WHISKY, volume = 180, abv = 42.8))
-                dao.insert(Drink(name = "Royal Challenge United Spirit", type = WHISKY, volume = 180, abv = 42.8))
+                dao.insert(Drink(name = "Royal Challenge United Spirit",
+                    type = WHISKY,
+                    volume = 180,
+                    abv = 42.8))
+
 
                 //Adding Vodka's
                 dao.insert(Drink(name = "Grey Goose", type = VODKA, volume = 180, abv = 40.0))

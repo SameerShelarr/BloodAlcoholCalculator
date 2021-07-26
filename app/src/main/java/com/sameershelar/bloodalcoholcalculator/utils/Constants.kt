@@ -13,4 +13,7 @@ object Constants {
         GIN,
         BRANDY,
     }
+
+    const val ADD_DRINK_RESULT_KEY = "add_drink_result_key"
+    const val ADD_DRINK_BUNDLE_KEY = "add_drink_bundle_key"
 }

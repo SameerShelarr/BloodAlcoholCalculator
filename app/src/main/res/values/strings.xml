@@ -21,4 +21,6 @@
     <string name="brandy">Brandy</string>
     <string name="started_at_time">Select start time:</string>
     <string name="select_quantity">Select quantity:</string>
+    <string name="history">History</string>
+    <string name="please_select_a_drink">Please select a drink</string>
 </resources>

@@ -6,17 +6,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 import com.sameershelar.bloodalcoholcalculator.R
 import com.sameershelar.bloodalcoholcalculator.data.Drink
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentAddDrinkBottomSheetDialogBinding
-import com.sameershelar.bloodalcoholcalculator.utils.Constants
+import com.sameershelar.bloodalcoholcalculator.utils.Constants.ADD_DRINK_BUNDLE_KEY
+import com.sameershelar.bloodalcoholcalculator.utils.Constants.ADD_DRINK_RESULT_KEY
 import com.sameershelar.bloodalcoholcalculator.utils.Constants.DrinkType.*
 import com.sameershelar.bloodalcoholcalculator.utils.Constants.TIME_FORMAT_0
+import com.sameershelar.bloodalcoholcalculator.utils.exhaustive
 import com.sameershelar.bloodalcoholcalculator.vm.AddDrinksViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,7 +33,6 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentAddDrinkBottomSheetDialogBinding
     private lateinit var adapter: DrinksListAdapter
-    private lateinit var drinksList: List<Drink>
     private val viewModel: AddDrinksViewModel by viewModels()
 
     override fun onCreateView(
@@ -37,7 +44,7 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
 
         binding.apply {
             bottomSheetLayout.layoutParams.height =
-                Resources.getSystem().displayMetrics.heightPixels / 10 * 6
+                Resources.getSystem().displayMetrics.heightPixels / 10 * 8
 
             startTimeText.text = SimpleDateFormat(TIME_FORMAT_0,
                 Locale.getDefault()).format(Calendar.getInstance().time)
@@ -49,7 +56,7 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
                     currentTime[Calendar.HOUR_OF_DAY],
                     currentTime[Calendar.MINUTE],
                     false)
-                mTimePicker.setTitle("When did you start drinking?")
+                mTimePicker.setTitle("What time did you start drinking?")
                 mTimePicker.show()
 
             }
@@ -58,30 +65,30 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
                 adapter.setData(
                     when (checkedId) {
                         R.id.beer_chip -> {
-                            drinksList.filter { drink -> drink.type == BEER }
+                            viewModel.drinksList.filter { drink -> drink.type == BEER }
                         }
 
                         R.id.whisky_chip -> {
-                            drinksList.filter { drink -> drink.type == WHISKY }
+                            viewModel.drinksList.filter { drink -> drink.type == WHISKY }
                         }
 
                         R.id.vodka_chip -> {
-                            drinksList.filter { drink -> drink.type == VODKA }
+                            viewModel.drinksList.filter { drink -> drink.type == VODKA }
                         }
 
                         R.id.rum_chip -> {
-                            drinksList.filter { drink -> drink.type == RUM }
+                            viewModel.drinksList.filter { drink -> drink.type == RUM }
                         }
                         R.id.wine_chip -> {
-                            drinksList.filter { drink -> drink.type == WINE }
+                            viewModel.drinksList.filter { drink -> drink.type == WINE }
                         }
 
                         R.id.gin_chip -> {
-                            drinksList.filter { drink -> drink.type == GIN }
+                            viewModel.drinksList.filter { drink -> drink.type == GIN }
                         }
 
                         R.id.brandy_chip -> {
-                            drinksList.filter { drink -> drink.type == BRANDY }
+                            viewModel.drinksList.filter { drink -> drink.type == BRANDY }
                         }
 
                         else -> {
@@ -101,14 +108,33 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
                 qtyText.text = if (qty != 1) qty.minus(1).toString() else "1"
             }
 
+            addDrinkButton.setOnClickListener {
+                val drink =
+                    viewModel.addSelectedDrinkOrShowError(getString(R.string.please_select_a_drink))
+                drink?.let {
+                    setFragmentResult(ADD_DRINK_RESULT_KEY, bundleOf(ADD_DRINK_BUNDLE_KEY to drink))
+                    dismiss()
+                }
+            }
+
             drinksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             drinksRecyclerView.adapter = adapter
         }
 
         viewModel.getAllDrinksLive().observe(viewLifecycleOwner) {
-            drinksList = it
-            val beerList = drinksList.filter { drink -> drink.type == BEER }
+            viewModel.drinksList = it as MutableList<Drink>
+            val beerList = viewModel.drinksList.filter { drink -> drink.type == BEER }
             adapter.setData(beerList)
+        }
+
+        lifecycleScope.launch {
+            viewModel.addDrinkTaskEvent.collect { event ->
+                when (event) {
+                    is AddDrinksViewModel.AddDrinkEvent.ShowSelectDrinkSnack -> {
+                        Snackbar.make(requireView(), event.message, Snackbar.LENGTH_SHORT).show()
+                    }
+                }.exhaustive
+            }
         }
 
         return binding.root

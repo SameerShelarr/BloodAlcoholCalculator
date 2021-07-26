@@ -6,18 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.sameershelar.bloodalcoholcalculator.data.Drink
 import com.sameershelar.bloodalcoholcalculator.data.Gender
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentBACalculatorBinding
+import com.sameershelar.bloodalcoholcalculator.utils.Constants.ADD_DRINK_BUNDLE_KEY
+import com.sameershelar.bloodalcoholcalculator.utils.Constants.ADD_DRINK_RESULT_KEY
 import com.sameershelar.bloodalcoholcalculator.vm.BACalculatorViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class BACalculatorFragment : Fragment() {
@@ -46,6 +45,18 @@ class BACalculatorFragment : Fragment() {
         viewModel.getPreferencesFlow().observe(viewLifecycleOwner) {
             weight = it.weight
             gender = it.gender
+        }
+
+        viewModel.addedDrinksLive.observe(viewLifecycleOwner) { addedDrinks ->
+            viewModel.calculateAndShowBACAndTimeUntilSober(addedDrinks)
+        }
+
+        setFragmentResultListener(ADD_DRINK_RESULT_KEY) { _, bundle ->
+            val selectedDrink = bundle[ADD_DRINK_BUNDLE_KEY] as Drink
+            viewModel.addDrink(selectedDrink)
+            Toast.makeText(requireContext(),
+                "Selected Drink is ${selectedDrink.name}",
+                Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
