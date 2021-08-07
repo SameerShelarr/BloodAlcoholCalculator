@@ -112,6 +112,7 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
                 val drink =
                     viewModel.addSelectedDrinkOrShowError(getString(R.string.please_select_a_drink))
                 drink?.let {
+                    drink.quantity = qtyText.text.toString().toInt()
                     setFragmentResult(ADD_DRINK_RESULT_KEY, bundleOf(ADD_DRINK_BUNDLE_KEY to drink))
                     dismiss()
                 }
