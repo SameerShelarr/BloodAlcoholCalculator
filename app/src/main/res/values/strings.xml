@@ -24,4 +24,5 @@
     <string name="history">History</string>
     <string name="please_select_a_drink">Please select a drink</string>
     <string name="do_not_drive">DO NOT DRIVE</string>
+    <string name="all">All</string>
 </resources>

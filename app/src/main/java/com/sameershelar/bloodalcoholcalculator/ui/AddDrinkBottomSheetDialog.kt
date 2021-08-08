@@ -64,6 +64,9 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
             chipGroup.setOnCheckedChangeListener { _, checkedId ->
                 adapter.setData(
                     when (checkedId) {
+                        R.id.all_chip -> {
+                            viewModel.drinksList
+                        }
                         R.id.beer_chip -> {
                             viewModel.drinksList.filter { drink -> drink.type == BEER }
                         }
@@ -124,8 +127,8 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
 
         viewModel.getAllDrinksLive().observe(viewLifecycleOwner) {
             viewModel.drinksList = it as MutableList<Drink>
-            val beerList = viewModel.drinksList.filter { drink -> drink.type == BEER }
-            adapter.setData(beerList)
+            val allList = viewModel.drinksList
+            adapter.setData(allList)
         }
 
         lifecycleScope.launch {

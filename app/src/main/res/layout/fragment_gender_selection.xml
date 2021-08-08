@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         app:singleSelection="true"
         app:selectionRequired="true"
-        app:checkedButton="@id/male_button"
+        app:checkedButton="@id/female_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

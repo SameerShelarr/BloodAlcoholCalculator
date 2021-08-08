@@ -117,13 +117,13 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/beer_chip"
+                    android:id="@+id/all_chip"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
                     android:checked="true"
-                    android:text="@string/beer" />
+                    android:text="@string/all" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/whisky_chip"
@@ -132,6 +132,14 @@
                     android:layout_height="wrap_content"
                     android:checkable="true"
                     android:text="@string/whisky" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/beer_chip"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:text="@string/beer" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/vodka_chip"
