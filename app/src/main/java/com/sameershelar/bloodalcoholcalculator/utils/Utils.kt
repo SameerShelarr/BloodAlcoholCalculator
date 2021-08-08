@@ -8,8 +8,8 @@ val <T> T.exhaustive: T
     get() = this
 
 fun getGenderConstant(gender: Gender): Double = when (gender) {
-    MALE -> 0.55
-    FEMALE -> 0.68
+    MALE -> 0.68
+    FEMALE -> 0.55
 }.exhaustive
 
 fun inPercent(number: Double) = String.format("%.4f%%", number)

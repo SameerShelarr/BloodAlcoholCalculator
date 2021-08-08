@@ -6,7 +6,6 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -103,9 +102,6 @@ class BACalculatorFragment : Fragment() {
         setFragmentResultListener(ADD_DRINK_RESULT_KEY) { _, bundle ->
             val selectedDrink = bundle[ADD_DRINK_BUNDLE_KEY] as Drink
             viewModel.addDrink(selectedDrink)
-            Toast.makeText(requireContext(),
-                "Selected Drink is ${selectedDrink.name}",
-                Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
