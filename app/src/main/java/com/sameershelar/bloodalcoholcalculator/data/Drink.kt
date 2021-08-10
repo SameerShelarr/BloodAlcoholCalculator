@@ -16,6 +16,7 @@ data class Drink(
     val abv: Double,
     val imageResId: Int = -1,
     var isSelected: Boolean = false,
+    var startedMinsAgo: Int = 0,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 ) : Parcelable

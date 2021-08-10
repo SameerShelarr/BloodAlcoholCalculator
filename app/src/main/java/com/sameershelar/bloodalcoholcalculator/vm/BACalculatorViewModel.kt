@@ -64,8 +64,24 @@ class BACalculatorViewModel @Inject constructor(
         val abvInGram = getAbvInGramsForAddedDrinks(addedDrinks)
         val weightInGram = preferencesManager.getWeight() * 1000.0
         val genderConstant = getGenderConstant(gender = preferencesManager.getGender())
+        val highestStartTime = findMaxStartTime(addedDrinks)
 
-        return@runBlocking (abvInGram / (weightInGram * genderConstant)) * 100.0
+        val abv =
+            ((abvInGram / (weightInGram * genderConstant)) * 100.0) - ((highestStartTime / 60) * 0.015)
+
+        return@runBlocking if (abv < 0) 0.0 else abv
+    }
+
+    private fun findMaxStartTime(drinks: List<Drink>): Int {
+        var max = 0
+        return if (drinks.isNotEmpty()) {
+            drinks.forEach { drink ->
+                if (drink.startedMinsAgo > max) max = drink.startedMinsAgo
+            }
+            max
+        } else {
+            max
+        }
     }
 
     private fun getAbvInGramsForAddedDrinks(addedDrinks: List<Drink>): Double =

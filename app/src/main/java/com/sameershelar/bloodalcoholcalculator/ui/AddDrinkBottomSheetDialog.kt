@@ -1,6 +1,5 @@
 package com.sameershelar.bloodalcoholcalculator.ui
 
-import android.app.TimePickerDialog
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,14 +18,11 @@ import com.sameershelar.bloodalcoholcalculator.databinding.FragmentAddDrinkBotto
 import com.sameershelar.bloodalcoholcalculator.utils.Constants.ADD_DRINK_BUNDLE_KEY
 import com.sameershelar.bloodalcoholcalculator.utils.Constants.ADD_DRINK_RESULT_KEY
 import com.sameershelar.bloodalcoholcalculator.utils.Constants.DrinkType.*
-import com.sameershelar.bloodalcoholcalculator.utils.Constants.TIME_FORMAT_0
 import com.sameershelar.bloodalcoholcalculator.utils.exhaustive
 import com.sameershelar.bloodalcoholcalculator.vm.AddDrinksViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 
 @AndroidEntryPoint
 class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
@@ -45,21 +41,6 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
         binding.apply {
             bottomSheetLayout.layoutParams.height =
                 Resources.getSystem().displayMetrics.heightPixels / 10 * 8
-
-            startTimeText.text = SimpleDateFormat(TIME_FORMAT_0,
-                Locale.getDefault()).format(Calendar.getInstance().time)
-
-            selectStartTimeLayout.setOnClickListener {
-                val currentTime = Calendar.getInstance()
-                val mTimePicker = TimePickerDialog(requireContext(),
-                    { _, selectedHour, selectedMinute -> onTimeSet(selectedHour, selectedMinute) },
-                    currentTime[Calendar.HOUR_OF_DAY],
-                    currentTime[Calendar.MINUTE],
-                    false)
-                mTimePicker.setTitle("What time did you start drinking?")
-                mTimePicker.show()
-
-            }
 
             chipGroup.setOnCheckedChangeListener { _, checkedId ->
                 adapter.setData(
@@ -101,14 +82,24 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
                 )
             }
 
-            incrementButton.setOnClickListener {
+            incrementQtyButton.setOnClickListener {
                 val qty = qtyText.text.toString().toInt()
                 qtyText.text = if (qty < 20) qty.plus(1).toString() else "20"
             }
 
-            decrementButton.setOnClickListener {
+            decrementQtyButton.setOnClickListener {
                 val qty = qtyText.text.toString().toInt()
                 qtyText.text = if (qty != 1) qty.minus(1).toString() else "1"
+            }
+
+            incrementStartTimeButton.setOnClickListener {
+                val mins = startTimeText.text.toString().toInt()
+                startTimeText.text = if (mins < 990) mins.plus(10).toString() else "990"
+            }
+
+            decrementStartTimeButton.setOnClickListener {
+                val mins = startTimeText.text.toString().toInt()
+                startTimeText.text = if (mins != 0) mins.minus(10).toString() else "0"
             }
 
             addDrinkButton.setOnClickListener {
@@ -116,6 +107,7 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
                     viewModel.addSelectedDrinkOrShowError(getString(R.string.please_select_a_drink))
                 drink?.let {
                     drink.quantity = qtyText.text.toString().toInt()
+                    drink.startedMinsAgo = startTimeText.text.toString().toInt()
                     setFragmentResult(ADD_DRINK_RESULT_KEY, bundleOf(ADD_DRINK_BUNDLE_KEY to drink))
                     dismiss()
                 }
@@ -142,19 +134,5 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
         }
 
         return binding.root
-    }
-
-    private fun onTimeSet(hourOfDay: Int, minute: Int) {
-        var amPm = ""
-        val datetime = Calendar.getInstance()
-        datetime[Calendar.HOUR_OF_DAY] = hourOfDay
-        datetime[Calendar.MINUTE] = minute
-        if (datetime[Calendar.AM_PM] == Calendar.AM) amPm =
-            "AM" else if (datetime[Calendar.AM_PM] == Calendar.PM) amPm = "PM"
-        val strHrsToShow =
-            if (datetime[Calendar.HOUR] == 0) "12" else datetime[Calendar.HOUR].toString() + ""
-        (strHrsToShow + ":" + datetime[Calendar.MINUTE] + " " + amPm).also {
-            binding.startTimeText.text = it
-        }
     }
 }
