@@ -25,4 +25,5 @@
     <string name="please_select_a_drink">Please select a drink</string>
     <string name="do_not_drive">DO NOT DRIVE</string>
     <string name="all">All</string>
+    <string name="name_of_the_drink">Name of the drink</string>
 </resources>

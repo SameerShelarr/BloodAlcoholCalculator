@@ -5,7 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -112,6 +116,73 @@ class AddDrinkBottomSheetDialog : BottomSheetDialogFragment() {
                     dismiss()
                 }
             }
+
+            searchDrink.setOnSearchClickListener {
+                horizontalScrollView.isVisible = false
+                searchDrink.layoutParams =
+                    ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT)
+
+                searchDrink.layoutParams =
+                    ConstraintLayout.LayoutParams(0,
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT)
+                val constraintSet = ConstraintSet()
+                constraintSet.clone(bottomSheetLayout)
+                constraintSet.connect(searchDrink.id,
+                    ConstraintSet.TOP,
+                    selectStartTimeLayout.id,
+                    ConstraintSet.BOTTOM,
+                    0)
+                constraintSet.connect(searchDrink.id,
+                    ConstraintSet.START,
+                    bottomSheetLayout.id,
+                    ConstraintSet.START,
+                    0)
+                constraintSet.connect(searchDrink.id,
+                    ConstraintSet.END,
+                    bottomSheetLayout.id,
+                    ConstraintSet.END,
+                    0)
+                constraintSet.applyTo(bottomSheetLayout)
+            }
+
+            searchDrink.setOnCloseListener {
+                horizontalScrollView.isVisible = true
+                searchDrink.layoutParams = ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT)
+
+                searchDrink.layoutParams = ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT)
+                val constraintSet = ConstraintSet()
+                constraintSet.clone(bottomSheetLayout)
+                constraintSet.connect(searchDrink.id,
+                    ConstraintSet.TOP,
+                    selectStartTimeLayout.id,
+                    ConstraintSet.BOTTOM,
+                    0)
+                constraintSet.connect(searchDrink.id,
+                    ConstraintSet.START,
+                    bottomSheetLayout.id,
+                    ConstraintSet.START,
+                    0)
+                constraintSet.applyTo(bottomSheetLayout)
+                return@setOnCloseListener false
+            }
+
+            searchDrink.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    adapter.setData(viewModel.drinksList.filter { drink ->
+                        drink.name.lowercase().contains(newText?.lowercase() ?: "")
+                    })
+                    return false
+                }
+            })
 
             drinksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             drinksRecyclerView.adapter = adapter
