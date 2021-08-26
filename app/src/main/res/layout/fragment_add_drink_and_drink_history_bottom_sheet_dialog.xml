@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AddDrinkBottomSheetDialog">
+    tools:context=".ui.AddDrinkAndDrinkHistoryBottomSheetDialog">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottom_sheet_layout"
+        android:id="@+id/add_drink_bottom_sheet_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:clipToPadding="true">
 
         <Button
@@ -212,6 +213,16 @@
 
         </HorizontalScrollView>
 
+        <ProgressBar
+            android:id="@+id/add_drinks_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/drinks_recycler_view_scroll_view"
+            app:layout_constraintVertical_bias=".1" />
+
         <androidx.core.widget.NestedScrollView
             android:id="@+id/drinks_recycler_view_scroll_view"
             android:layout_width="match_parent"
@@ -229,6 +240,79 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/drinks_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="true"
+                    tools:listitem="@layout/drink_list_item_layout" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/drinks_history_bottom_sheet_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/drinks_history_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/drinks_history_recycler_view_scroll_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drinks_history_title_text" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/drinks_history_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_history"
+            android:drawableLeft="@drawable/ic_history"
+            android:drawablePadding="4dp"
+            android:padding="8dp"
+            android:text="@string/history"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/design_default_color_primary"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/drinks_history_empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_drinks_to_show"
+            android:textColor="@color/design_default_color_primary"
+            android:textStyle="italic"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drinks_history_title_text" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/drinks_history_recycler_view_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drinks_history_title_text">
+
+            <LinearLayout
+                android:id="@+id/layout_form1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/drinks_history_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="true"

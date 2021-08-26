@@ -18,7 +18,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/do_not_drive_text"
@@ -34,41 +35,50 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="@string/legal_limit_0_03" />
+                android:text="@string/legal_limit_0_03"
+                android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/blood_alcohol_content_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="0%"
                 android:textColor="@color/design_default_color_primary"
                 android:textSize="32sp"
                 android:textStyle="bold"
-                android:text="0%"
                 tools:text="0.0059%" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/estimated_blood_alcohol_content" />
+                android:text="@string/estimated_blood_alcohol_content"
+                android:textSize="12sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/time_until_sober_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="0h 0m"
                 android:textColor="@color/design_default_color_primary"
                 android:textSize="64sp"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp"
-                android:text="0h 0m"
                 tools:text="1h 59m" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/estimated_time_until_fully_sober" />
+                android:text="@string/estimated_time_until_fully_sober"
+                android:textSize="12sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/history_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/history_underlined"
+                android:textColor="@color/design_default_color_primary"
+                android:textStyle="italic" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

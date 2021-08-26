@@ -9,7 +9,7 @@
         android:id="@+id/weightSelectionFragment"
         android:name="com.sameershelar.bloodalcoholcalculator.ui.WeightSelectionFragment"
         android:label="fragment_weight_selection"
-        tools:layout="@layout/fragment_weight_selection" >
+        tools:layout="@layout/fragment_weight_selection">
         <action
             android:id="@+id/action_weightSelectionFragment_to_genderSelectionFragment2"
             app:destination="@id/genderSelectionFragment2" />
@@ -23,7 +23,7 @@
         android:id="@+id/genderSelectionFragment2"
         android:name="com.sameershelar.bloodalcoholcalculator.ui.GenderSelectionFragment"
         android:label="fragment_gender_selection"
-        tools:layout="@layout/fragment_gender_selection" >
+        tools:layout="@layout/fragment_gender_selection">
         <action
             android:id="@+id/action_genderSelectionFragment2_to_BACCalculatorFragment"
             app:destination="@id/BACCalculatorFragment"
@@ -34,14 +34,36 @@
         android:id="@+id/BACCalculatorFragment"
         android:name="com.sameershelar.bloodalcoholcalculator.ui.BACalculatorFragment"
         android:label="fragment_b_a_c_calculator"
-        tools:layout="@layout/fragment_b_a_calculator" >
+        tools:layout="@layout/fragment_b_a_calculator">
         <action
             android:id="@+id/action_BACCalculatorFragment_to_addDrinkBottomSheetDialog"
-            app:destination="@id/addDrinkBottomSheetDialog" />
+            app:destination="@id/addDrinkBottomSheetDialog">
+            <argument
+                android:name="isHistoryMode"
+                android:defaultValue="false"
+                app:argType="boolean"
+                app:nullable="false" />
+            <argument
+                android:name="addedDrinks"
+                android:defaultValue="@null"
+                app:argType="com.sameershelar.bloodalcoholcalculator.data.Drink[]"
+                app:nullable="true" />
+        </action>
     </fragment>
     <dialog
         android:id="@+id/addDrinkBottomSheetDialog"
-        android:name="com.sameershelar.bloodalcoholcalculator.ui.AddDrinkBottomSheetDialog"
+        android:name="com.sameershelar.bloodalcoholcalculator.ui.AddDrinkAndDrinkHistoryBottomSheetDialog"
         android:label="fragment_add_drink_bottom_sheet_dialog"
-        tools:layout="@layout/fragment_add_drink_bottom_sheet_dialog" />
+        tools:layout="@layout/fragment_add_drink_and_drink_history_bottom_sheet_dialog">
+        <argument
+            android:name="isHistoryMode"
+            android:defaultValue="false"
+            app:argType="boolean"
+            app:nullable="false" />
+        <argument
+            android:name="addedDrinks"
+            android:defaultValue="@null"
+            app:argType="com.sameershelar.bloodalcoholcalculator.data.Drink[]"
+            app:nullable="true" />
+    </dialog>
 </navigation>

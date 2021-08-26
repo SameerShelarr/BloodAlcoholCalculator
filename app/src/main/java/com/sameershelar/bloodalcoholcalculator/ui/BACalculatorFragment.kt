@@ -41,7 +41,20 @@ class BACalculatorFragment : Fragment() {
 
         binding.apply {
             addDrinkFab.setOnClickListener {
-                findNavController().navigate(BACalculatorFragmentDirections.actionBACCalculatorFragmentToAddDrinkBottomSheetDialog())
+                findNavController().navigate(
+                    BACalculatorFragmentDirections
+                        .actionBACCalculatorFragmentToAddDrinkBottomSheetDialog(false)
+                )
+            }
+
+            historyButton.setOnClickListener {
+                findNavController().navigate(
+                    BACalculatorFragmentDirections
+                        .actionBACCalculatorFragmentToAddDrinkBottomSheetDialog(
+                            true,
+                            viewModel.addedDrinksLive.value?.toTypedArray()
+                        )
+                )
             }
         }
 

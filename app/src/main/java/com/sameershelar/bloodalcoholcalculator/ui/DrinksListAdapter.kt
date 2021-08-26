@@ -12,37 +12,78 @@ import com.sameershelar.bloodalcoholcalculator.data.Drink
 
 class DrinksListAdapter(
     private var drinksList: MutableList<Drink>,
+    private var isHistoryMode: Boolean,
 ) :
-    RecyclerView.Adapter<DrinksListAdapter.ItemViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
-            DrinksListAdapter.ItemViewHolder = ItemViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.drink_list_item_layout, parent,
-            false)
-    )
+    RecyclerView.Adapter<DrinksViewHolder>() {
 
-    override fun onBindViewHolder(holder: DrinksListAdapter.ItemViewHolder, position: Int) {
+    constructor(
+        drinksList: MutableList<Drink>,
+        isHistoryMode: Boolean,
+        onDeleteAddedDrinkClickListener: OnDeleteAddedDrinkClickListener
+    )
+            : this(drinksList, isHistoryMode) {
+        this.deleteDrinkClickListener = onDeleteAddedDrinkClickListener
+    }
+
+    private lateinit var deleteDrinkClickListener: OnDeleteAddedDrinkClickListener
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            DrinksViewHolder = if (isHistoryMode) {
+        AddedDrinkItemViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.added_drink_list_item_layout, parent,
+                false
+            ),
+            deleteDrinkClickListener
+        )
+    } else {
+        DrinkItemViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.drink_list_item_layout, parent,
+                false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: DrinksViewHolder, position: Int) {
         val currentDrink = drinksList[position]
-        if (currentDrink.imageResId != -1) {
-            holder.drinkImageView.setImageResource(currentDrink.imageResId)
+        when (holder) {
+            is DrinkItemViewHolder -> {
+                if (currentDrink.imageResId != -1) {
+                    holder.drinkImageView.setImageResource(currentDrink.imageResId)
+                }
+                holder.drinkNameText.text = currentDrink.name
+                "${currentDrink.volume}ml, ${currentDrink.abv}%".also {
+                    holder.drinkVolumeAndAbvText.text = it
+                }
+                holder.isDrinkSelectedCheckBox.isChecked = currentDrink.isSelected
+            }
+            is AddedDrinkItemViewHolder -> {
+                if (currentDrink.imageResId != -1) {
+                    holder.drinkImageView.setImageResource(currentDrink.imageResId)
+                }
+                holder.drinkNameText.text = currentDrink.name
+                "${currentDrink.volume}ml, ${currentDrink.abv}%".also {
+                    holder.drinkVolumeAndAbvText.text = it
+                }
+            }
         }
-        holder.drinkNameText.text = currentDrink.name
-        "${currentDrink.volume}ml, ${currentDrink.abv}%".also {
-            holder.drinkVolumeAndAbvText.text = it
-        }
-        holder.isDrinkSelectedCheckBox.isChecked = currentDrink.isSelected
     }
 
     override fun getItemCount(): Int = drinksList.size
 
     fun setData(drinksList: List<Drink>) {
-        with(this.drinksList){
+        this.drinksList.forEachIndexed { _, drink ->
+            drink.isSelected = false
+        }
+        with(this.drinksList) {
             clear()
             addAll(drinksList)
         }
         notifyDataSetChanged()
     }
 
-    inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+    inner class DrinkItemViewHolder(itemView: View) : DrinksViewHolder(itemView),
         View.OnClickListener {
         val drinkImageView: AppCompatImageView =
             itemView.findViewById(R.id.drink_image_view)
@@ -68,4 +109,30 @@ class DrinksListAdapter(
             notifyItemChanged(adapterPosition)
         }
     }
+
+    inner class AddedDrinkItemViewHolder(
+        itemView: View,
+        onDeleteAddedDrinkClickListener: OnDeleteAddedDrinkClickListener
+    ) : DrinksViewHolder(itemView) {
+        val drinkImageView: AppCompatImageView =
+            itemView.findViewById(R.id.drink_image_view)
+        val drinkNameText: AppCompatTextView =
+            itemView.findViewById(R.id.drink_name_text)
+        val drinkVolumeAndAbvText: AppCompatTextView =
+            itemView.findViewById(R.id.drink_volume_and_abv_text)
+        private val deleteAddedDrinkButton: AppCompatImageView =
+            itemView.findViewById(R.id.delete_added_drink_button)
+
+        init {
+            deleteAddedDrinkButton.setOnClickListener {
+                onDeleteAddedDrinkClickListener.onDeleteAddedDrink(drinksList[adapterPosition])
+            }
+        }
+    }
+}
+
+open class DrinksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+interface OnDeleteAddedDrinkClickListener {
+    fun onDeleteAddedDrink(drink: Drink)
 }
