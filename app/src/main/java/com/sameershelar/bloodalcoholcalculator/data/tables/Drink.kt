@@ -1,4 +1,4 @@
-package com.sameershelar.bloodalcoholcalculator.data
+package com.sameershelar.bloodalcoholcalculator.data.tables
 
 import android.os.Parcelable
 import androidx.room.Entity

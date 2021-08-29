@@ -2,7 +2,7 @@ package com.sameershelar.bloodalcoholcalculator.di
 
 import android.app.Application
 import androidx.room.Room
-import com.sameershelar.bloodalcoholcalculator.data.BACDatabase
+import com.sameershelar.bloodalcoholcalculator.data.db.BACDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,4 +37,7 @@ object AppModule {
 
     @Provides
     fun providesDrinkDao(db: BACDatabase) = db.drinkDao()
+
+    @Provides
+    fun providesAddedDrinkDao(db: BACDatabase) = db.addedDrinkDao()
 }

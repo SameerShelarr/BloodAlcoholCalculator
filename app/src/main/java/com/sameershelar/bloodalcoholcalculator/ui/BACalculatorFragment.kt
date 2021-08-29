@@ -9,17 +9,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.sameershelar.bloodalcoholcalculator.R
-import com.sameershelar.bloodalcoholcalculator.data.Drink
 import com.sameershelar.bloodalcoholcalculator.data.Gender
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentBACalculatorBinding
-import com.sameershelar.bloodalcoholcalculator.utils.Constants.ADD_DRINK_BUNDLE_KEY
-import com.sameershelar.bloodalcoholcalculator.utils.Constants.ADD_DRINK_RESULT_KEY
 import com.sameershelar.bloodalcoholcalculator.utils.inPercent
+import com.sameershelar.bloodalcoholcalculator.utils.navigateSafe
 import com.sameershelar.bloodalcoholcalculator.vm.BACalculatorViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
@@ -41,18 +38,17 @@ class BACalculatorFragment : Fragment() {
 
         binding.apply {
             addDrinkFab.setOnClickListener {
-                findNavController().navigate(
+                findNavController().navigateSafe(
                     BACalculatorFragmentDirections
                         .actionBACCalculatorFragmentToAddDrinkBottomSheetDialog(false)
                 )
             }
 
             historyButton.setOnClickListener {
-                findNavController().navigate(
+                findNavController().navigateSafe(
                     BACalculatorFragmentDirections
                         .actionBACCalculatorFragmentToAddDrinkBottomSheetDialog(
-                            true,
-                            viewModel.addedDrinksLive.value?.toTypedArray()
+                            true
                         )
                 )
             }
@@ -67,10 +63,6 @@ class BACalculatorFragment : Fragment() {
             gender = it.gender
         }
 
-        viewModel.addedDrinksLive.observe(viewLifecycleOwner) { addedDrinks ->
-            viewModel.calculateAndShowBACAndTimeUntilSober(addedDrinks)
-        }
-
         viewModel.bacLive.observe(viewLifecycleOwner) { bac ->
             if (bac > 0.03) {
                 binding.apply {
@@ -80,10 +72,18 @@ class BACalculatorFragment : Fragment() {
                 }
             } else {
                 binding.apply {
-                    bloodAlcoholContentText.setTextColor(ContextCompat.getColor(requireContext(),
-                        R.color.design_default_color_primary))
-                    addDrinkFab.setBackgroundColor(ContextCompat.getColor(requireContext(),
-                        R.color.design_default_color_primary))
+                    bloodAlcoholContentText.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.design_default_color_primary
+                        )
+                    )
+                    addDrinkFab.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.design_default_color_primary
+                        )
+                    )
                     doNotDriveText.isVisible = false
                 }
             }
@@ -112,9 +112,8 @@ class BACalculatorFragment : Fragment() {
             countDownTimer?.start()
         }
 
-        setFragmentResultListener(ADD_DRINK_RESULT_KEY) { _, bundle ->
-            val selectedDrink = bundle[ADD_DRINK_BUNDLE_KEY] as Drink
-            viewModel.addDrink(selectedDrink)
+        viewModel.addedDrinksLive.observe(viewLifecycleOwner) { addedDrinks ->
+            viewModel.calculateAndShowBACAndTimeUntilSober(addedDrinks)
         }
 
         return binding.root

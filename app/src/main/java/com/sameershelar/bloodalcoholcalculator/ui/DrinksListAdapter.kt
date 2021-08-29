@@ -8,7 +8,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sameershelar.bloodalcoholcalculator.R
-import com.sameershelar.bloodalcoholcalculator.data.Drink
+import com.sameershelar.bloodalcoholcalculator.data.tables.Drink
 
 class DrinksListAdapter(
     private var drinksList: MutableList<Drink>,
@@ -62,6 +62,7 @@ class DrinksListAdapter(
                 if (currentDrink.imageResId != -1) {
                     holder.drinkImageView.setImageResource(currentDrink.imageResId)
                 }
+                holder.drinkQtyText.text = currentDrink.quantity.toString()
                 holder.drinkNameText.text = currentDrink.name
                 "${currentDrink.volume}ml, ${currentDrink.abv}%".also {
                     holder.drinkVolumeAndAbvText.text = it
@@ -118,6 +119,8 @@ class DrinksListAdapter(
             itemView.findViewById(R.id.drink_image_view)
         val drinkNameText: AppCompatTextView =
             itemView.findViewById(R.id.drink_name_text)
+        val drinkQtyText: AppCompatTextView =
+            itemView.findViewById(R.id.qty_text)
         val drinkVolumeAndAbvText: AppCompatTextView =
             itemView.findViewById(R.id.drink_volume_and_abv_text)
         private val deleteAddedDrinkButton: AppCompatImageView =

@@ -27,4 +27,6 @@
     <string name="name_of_the_drink">Name of the drink</string>
     <string name="no_drinks_to_show">No drinks to show</string>
     <string name="delete_button">Delete button</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
 </resources>

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -42,11 +41,9 @@ class GenderSelectionFragment : Fragment() {
                     when (checkedId) {
                         R.id.male_button -> {
                             viewModel.onGenderSelected(Gender.MALE)
-                            Toast.makeText(context, "Male", Toast.LENGTH_SHORT).show()
                         }
                         R.id.female_button -> {
                             viewModel.onGenderSelected(Gender.FEMALE)
-                            Toast.makeText(context, "Female", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

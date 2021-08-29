@@ -9,9 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -19,10 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.sameershelar.bloodalcoholcalculator.R
-import com.sameershelar.bloodalcoholcalculator.data.Drink
+import com.sameershelar.bloodalcoholcalculator.data.tables.AddedDrink
+import com.sameershelar.bloodalcoholcalculator.data.tables.Drink
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentAddDrinkAndDrinkHistoryBottomSheetDialogBinding
-import com.sameershelar.bloodalcoholcalculator.utils.Constants.ADD_DRINK_BUNDLE_KEY
-import com.sameershelar.bloodalcoholcalculator.utils.Constants.ADD_DRINK_RESULT_KEY
 import com.sameershelar.bloodalcoholcalculator.utils.Constants.DrinkType.*
 import com.sameershelar.bloodalcoholcalculator.utils.exhaustive
 import com.sameershelar.bloodalcoholcalculator.vm.AddDrinksAndDrinksHistoryViewModel
@@ -50,9 +47,30 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
         binding = FragmentAddDrinkAndDrinkHistoryBottomSheetDialogBinding.inflate(layoutInflater)
 
         binding.apply {
+
+            addDrinkBottomSheetLayout.layoutParams.height =
+                Resources.getSystem().displayMetrics.heightPixels / 10 * 8
+
             if (args.isHistoryMode) {
-                drinksHistoryBottomSheetLayout.isVisible = true
-                addDrinkBottomSheetLayout.isVisible = false
+
+                addDrinkButton.isVisible = false
+                selectQtyLayout.isVisible = false
+                searchDrink.isVisible = false
+                horizontalScrollView.isVisible = false
+                selectStartTimeLayout.isVisible = false
+
+                drinksHistoryTitleText.isVisible = true
+
+                val constraintSetForRecyclerView = ConstraintSet()
+                constraintSetForRecyclerView.clone(addDrinkBottomSheetLayout)
+                constraintSetForRecyclerView.connect(
+                    drinksRecyclerViewScrollView.id,
+                    ConstraintSet.TOP,
+                    drinksHistoryTitleText.id,
+                    ConstraintSet.BOTTOM,
+                    0
+                )
+                constraintSetForRecyclerView.applyTo(addDrinkBottomSheetLayout)
 
                 adapter = DrinksListAdapter(
                     arrayListOf(),
@@ -60,32 +78,37 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                     this@AddDrinkAndDrinkHistoryBottomSheetDialog
                 )
 
-                drinksHistoryBottomSheetLayout.layoutParams.height =
-                    Resources.getSystem().displayMetrics.heightPixels / 10 * 8
+                viewModel.addedDrinksLive.observe(viewLifecycleOwner) { addedDrinks ->
 
-                val addedDrinksList: List<Drink> = args.addedDrinks?.toList() ?: listOf()
-                Log.d(TAG, "onCreateView: Added drinks list size is ${addedDrinksList.size}")
+                    Log.d(TAG, "onCreateView: Added drinks list size is ${addedDrinks.size}")
 
-                if (addedDrinksList.isEmpty()) {
-                    drinksHistoryProgressBar.isVisible = false
-                    drinksHistoryEmptyText.isVisible = true
-                } else {
-                    drinksHistoryProgressBar.isVisible = false
-                    drinksHistoryEmptyText.isVisible = false
+                    if (addedDrinks.isEmpty()) {
+                        drinksProgressBar.isVisible = false
+                        drinksHistoryEmptyText.isVisible = true
+                        adapter.setData(listOf())
+                    } else {
+                        drinksProgressBar.isVisible = false
+                        drinksHistoryEmptyText.isVisible = false
 
-                    adapter.setData(addedDrinksList)
+                        adapter.setData(getDrinksFromAddedDrinksList(addedDrinks))
 
-                    drinksHistoryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                    drinksHistoryRecyclerView.adapter = adapter
+                        drinksRecyclerView.layoutManager =
+                            LinearLayoutManager(requireContext())
+                        drinksRecyclerView.adapter = adapter
+                    }
                 }
+
             } else {
-                drinksHistoryBottomSheetLayout.isVisible = false
-                addDrinkBottomSheetLayout.isVisible = true
+
+                addDrinkButton.isVisible = true
+                selectQtyLayout.isVisible = true
+                searchDrink.isVisible = true
+                horizontalScrollView.isVisible = true
+                selectStartTimeLayout.isVisible = true
+
+                drinksHistoryTitleText.isVisible = false
 
                 adapter = DrinksListAdapter(arrayListOf(), false)
-
-                addDrinkBottomSheetLayout.layoutParams.height =
-                    Resources.getSystem().displayMetrics.heightPixels / 10 * 8
 
                 chipGroup.setOnCheckedChangeListener { _, checkedId ->
                     adapter.setData(viewModel.sortDrinksAccordingToCategorySelected(checkedId))
@@ -117,10 +140,9 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                     drink?.let {
                         drink.quantity = qtyText.text.toString().toInt()
                         drink.startedMinsAgo = startTimeText.text.toString().toInt()
-                        setFragmentResult(
-                            ADD_DRINK_RESULT_KEY,
-                            bundleOf(ADD_DRINK_BUNDLE_KEY to drink)
-                        )
+
+                        viewModel.addDrink(drink)
+
                         dismiss()
                     }
                 }
@@ -218,7 +240,7 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                 viewModel.drinksList = it as MutableList<Drink>
                 val allList = viewModel.drinksList
                 adapter.setData(allList)
-                binding.addDrinksProgressBar.isVisible = false
+                binding.drinksProgressBar.isVisible = false
             }
         }
 
@@ -235,7 +257,11 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
         return binding.root
     }
 
+    private fun getDrinksFromAddedDrinksList(addedDrinks: List<AddedDrink>) =
+        addedDrinks.map { addedDrink -> addedDrink.drink }
+
     override fun onDeleteAddedDrink(drink: Drink) {
-        //TODO Delete drink
+        Log.d(TAG, "onDeleteAddedDrink: delete clicked for ${drink.name}, ${drink.volume} ml")
+        viewModel.removeDrink(drink)
     }
 }

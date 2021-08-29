@@ -16,6 +16,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/qty_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/drink_image_view"
+        app:layout_constraintStart_toEndOf="@+id/drink_image_view"
+        app:layout_constraintTop_toTopOf="@+id/drink_image_view"
+        tools:text="5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/x_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="X"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/qty_text"
+        app:layout_constraintStart_toEndOf="@+id/qty_text"
+        app:layout_constraintTop_toTopOf="@+id/qty_text" />
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"
         android:layout_width="0dp"
@@ -24,8 +53,8 @@
         android:layout_marginEnd="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/drink_image_view"
-        app:layout_constraintEnd_toStartOf="@+id/is_drink_selected_check_box"
-        app:layout_constraintStart_toEndOf="@+id/drink_image_view"
+        app:layout_constraintEnd_toStartOf="@+id/delete_added_drink_button"
+        app:layout_constraintStart_toEndOf="@+id/x_text"
         app:layout_constraintTop_toTopOf="@+id/drink_image_view">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -55,6 +84,7 @@
         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
         android:clickable="false"
         android:contentDescription="@string/delete_button"
         android:enabled="false"

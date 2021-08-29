@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/added_drink_list_item_layout.xml" value="0.4" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/drawable/drink_icon_default.xml" value="0.2911458333333333" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/added_drink_list_item_layout.xml" value="0.2" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/drink_list_item_layout.xml" value="0.275" />
         <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/fragment_add_drink_and_drink_history_bottom_sheet_dialog.xml" value="0.275" />
         <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/fragment_add_drink_bottom_sheet_dialog.xml" value="0.275" />
         <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/fragment_b_a_calculator.xml" value="0.275" />

@@ -43,11 +43,6 @@
                 android:defaultValue="false"
                 app:argType="boolean"
                 app:nullable="false" />
-            <argument
-                android:name="addedDrinks"
-                android:defaultValue="@null"
-                app:argType="com.sameershelar.bloodalcoholcalculator.data.Drink[]"
-                app:nullable="true" />
         </action>
     </fragment>
     <dialog
@@ -60,10 +55,5 @@
             android:defaultValue="false"
             app:argType="boolean"
             app:nullable="false" />
-        <argument
-            android:name="addedDrinks"
-            android:defaultValue="@null"
-            app:argType="com.sameershelar.bloodalcoholcalculator.data.Drink[]"
-            app:nullable="true" />
     </dialog>
 </navigation>
