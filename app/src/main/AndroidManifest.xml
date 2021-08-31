@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.sameershelar.bloodalcoholcalculator">
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+        </intent>
+    </queries>
 
     <application
         android:name=".BACApplication"
@@ -12,7 +19,9 @@
         android:theme="@style/Theme.BloodAlcoholCalculator">
         <activity
             android:name=".ui.MainActivity"
-            android:theme="@style/SplashScreenTheme">
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/SplashScreenTheme"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

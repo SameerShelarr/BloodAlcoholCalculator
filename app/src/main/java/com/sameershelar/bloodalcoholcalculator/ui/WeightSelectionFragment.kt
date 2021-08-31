@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentWeightSelectionBinding
 import com.sameershelar.bloodalcoholcalculator.vm.WeightSelectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +18,7 @@ class WeightSelectionFragment : Fragment() {
 
     private lateinit var binding: FragmentWeightSelectionBinding
     private val viewModel: WeightSelectionViewModel by viewModels()
+    private val args: WeightSelectionFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,8 +29,10 @@ class WeightSelectionFragment : Fragment() {
 
         runBlocking {
             val pref = viewModel.getPreferencesFlow()
-            if (pref.isPreferencesSelected) {
-                findNavController().navigate(WeightSelectionFragmentDirections.actionWeightSelectionFragmentToBACCalculatorFragment())
+            if (pref.isPreferencesSelected && !args.isFromSetting) {
+                findNavController().navigate(
+                    WeightSelectionFragmentDirections.actionWeightSelectionFragmentToBACCalculatorFragment()
+                )
             }
         }
 
@@ -36,12 +40,16 @@ class WeightSelectionFragment : Fragment() {
             weightPicker.minValue = 20
             weightPicker.maxValue = 200
 
+            if (args.isFromSetting) {
+                viewModel.onWeightSelected(weightPicker.value)
+            }
+
             weightPicker.setOnValueChangedListener { _, _, newVal ->
                 viewModel.onWeightSelected(newVal)
             }
 
             nextButton.setOnClickListener {
-                findNavController().navigate(WeightSelectionFragmentDirections.actionWeightSelectionFragmentToGenderSelectionFragment2())
+                findNavController().navigate(WeightSelectionFragmentDirections.actionWeightSelectionFragmentToGenderSelectionFragment())
             }
         }
 

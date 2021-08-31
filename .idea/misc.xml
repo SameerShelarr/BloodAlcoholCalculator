@@ -3,14 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.13464912280701755" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/drawable-v24/splash_screen_logo.xml" value="0.2361111111111111" />
         <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/drawable/drink_icon_default.xml" value="0.2911458333333333" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/drawable/ic_share.xml" value="0.2361111111111111" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/drawable/splash_image.xml" value="0.2361111111111111" />
         <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/added_drink_list_item_layout.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/drink_list_item_layout.xml" value="0.275" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/fragment_about.xml" value="0.22857142857142856" />
         <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/fragment_add_drink_and_drink_history_bottom_sheet_dialog.xml" value="0.275" />
         <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/fragment_add_drink_bottom_sheet_dialog.xml" value="0.275" />
-        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/fragment_b_a_calculator.xml" value="0.275" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/fragment_b_a_calculator.xml" value="0.136" />
         <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/fragment_drinks_history_bottom_sheet_dialog.xml" value="0.264" />
         <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/fragment_gender_selection.xml" value="0.275" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/layout/fragment_weight_selection.xml" value="0.23157894736842105" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/menu/main_options_menu.xml" value="0.264" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.13464912280701755" />
+        <entry key="..\:/AndroidProjects/BloodAlcoholCalculator/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.13464912280701755" />
       </map>
     </option>
   </component>

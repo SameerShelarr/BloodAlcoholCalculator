@@ -8,32 +8,37 @@
     <fragment
         android:id="@+id/weightSelectionFragment"
         android:name="com.sameershelar.bloodalcoholcalculator.ui.WeightSelectionFragment"
-        android:label="fragment_weight_selection"
+        android:label="Select Weight"
         tools:layout="@layout/fragment_weight_selection">
         <action
-            android:id="@+id/action_weightSelectionFragment_to_genderSelectionFragment2"
-            app:destination="@id/genderSelectionFragment2" />
+            android:id="@+id/action_weightSelectionFragment_to_genderSelectionFragment"
+            app:destination="@id/genderSelectionFragment" />
+        <argument
+            android:name="isFromSetting"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_weightSelectionFragment_to_BACCalculatorFragment"
             app:destination="@id/BACCalculatorFragment"
-            app:popUpTo="@id/nav_graph"
+            app:popUpTo="@id/weightSelectionFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/genderSelectionFragment2"
+        android:id="@+id/genderSelectionFragment"
         android:name="com.sameershelar.bloodalcoholcalculator.ui.GenderSelectionFragment"
-        android:label="fragment_gender_selection"
+        android:label="Select Gender"
         tools:layout="@layout/fragment_gender_selection">
         <action
-            android:id="@+id/action_genderSelectionFragment2_to_BACCalculatorFragment"
+            android:id="@+id/action_genderSelectionFragment_to_BACCalculatorFragment"
             app:destination="@id/BACCalculatorFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/BACCalculatorFragment"
         android:name="com.sameershelar.bloodalcoholcalculator.ui.BACalculatorFragment"
-        android:label="fragment_b_a_c_calculator"
+        android:label="Blood Alcohol Calculator"
         tools:layout="@layout/fragment_b_a_calculator">
         <action
             android:id="@+id/action_BACCalculatorFragment_to_addDrinkBottomSheetDialog"
@@ -44,6 +49,16 @@
                 app:argType="boolean"
                 app:nullable="false" />
         </action>
+        <action
+            android:id="@+id/action_BACCalculatorFragment_to_weightSelectionFragment"
+            app:destination="@id/weightSelectionFragment">
+            <argument
+                android:name="isFromSetting"
+                android:defaultValue="false" />
+        </action>
+        <action
+            android:id="@+id/action_BACCalculatorFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <dialog
         android:id="@+id/addDrinkBottomSheetDialog"
@@ -56,4 +71,9 @@
             app:argType="boolean"
             app:nullable="false" />
     </dialog>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.sameershelar.bloodalcoholcalculator.ui.AboutFragment"
+        android:label="@string/about"
+        tools:layout="@layout/fragment_about" />
 </navigation>

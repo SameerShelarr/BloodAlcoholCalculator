@@ -1,11 +1,12 @@
 package com.sameershelar.bloodalcoholcalculator.ui
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -23,6 +24,10 @@ import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class BACalculatorFragment : Fragment() {
+
+    companion object {
+        private const val TAG = "BACalculatorFragment"
+    }
 
     private lateinit var binding: FragmentBACalculatorBinding
     private val viewModel: BACalculatorViewModel by viewModels()
@@ -116,6 +121,8 @@ class BACalculatorFragment : Fragment() {
             viewModel.calculateAndShowBACAndTimeUntilSober(addedDrinks)
         }
 
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 
@@ -123,4 +130,61 @@ class BACalculatorFragment : Fragment() {
         super.onStop()
         countDownTimer?.cancel()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_options_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
+            R.id.share_options_menu_button -> {
+
+                val intent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_SUBJECT, "Blood Alcohol Calculator")
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        "https://play.google.com/store/apps/details?id=" + requireContext().packageName
+                    )
+                }
+                if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "No suitable application found, Cannot send email.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                try {
+                    val shareIntent = Intent(Intent.ACTION_SEND)
+                    shareIntent.type = "text/plain"
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Blood Alcohol Calculator")
+                    shareIntent.putExtra(
+                        Intent.EXTRA_TEXT,
+                        "https://play.google.com/store/apps/details?id=" + requireContext().packageName
+                    )
+                    startActivity(Intent.createChooser(shareIntent, "Share Using"))
+                } catch (e: Exception) {
+                    Log.e(TAG, "onOptionsItemSelected: ${e.message}", e)
+                }
+                true
+            }
+            R.id.settings_options_menu_button -> {
+                findNavController().navigateSafe(
+                    BACalculatorFragmentDirections.actionBACCalculatorFragmentToWeightSelectionFragment(
+                        true
+                    )
+                )
+                true
+            }
+            R.id.about_options_menu_button -> {
+                findNavController().navigateSafe(
+                    BACalculatorFragmentDirections.actionBACCalculatorFragmentToAboutFragment()
+                )
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 }

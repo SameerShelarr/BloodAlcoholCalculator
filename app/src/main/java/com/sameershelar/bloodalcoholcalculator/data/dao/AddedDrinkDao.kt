@@ -25,4 +25,7 @@ interface AddedDrinkDao {
 
     @Query("SELECT * FROM added_drink_table")
     suspend fun getAll(): List<AddedDrink>
+
+    @Query("DELETE FROM added_drink_table")
+    suspend fun deleteAll()
 }

@@ -33,8 +33,10 @@ class GenderSelectionFragment : Fragment() {
             }
 
             nextButton.setOnClickListener {
-                findNavController().navigate(GenderSelectionFragmentDirections.actionGenderSelectionFragment2ToBACCalculatorFragment())
+                findNavController().navigate(GenderSelectionFragmentDirections.actionGenderSelectionFragmentToBACCalculatorFragment())
             }
+
+            viewModel.onGenderSelected(Gender.FEMALE)
 
             toggleButton.addOnButtonCheckedListener { _, checkedId, isChecked ->
                 if (isChecked) {

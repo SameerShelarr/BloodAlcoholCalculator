@@ -29,4 +29,11 @@
     <string name="delete_button">Delete button</string>
     <string name="female">Female</string>
     <string name="male">Male</string>
+    <string name="share">Share</string>
+    <string name="settings">Change Settings</string>
+    <string name="about">About</string>
+    <string name="started_minutes_ago">Started minutes ago?</string>
+    <string name="about_text">A simple app for calculating approximate blood alcohol content according to weight, gender and drinks consumed.</string>
+    <string name="contact_developer">Contact Developer</string>
+    <string name="email_id_of_developer">workingshelar@gmail.com</string>
 </resources>

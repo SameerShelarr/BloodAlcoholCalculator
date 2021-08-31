@@ -31,6 +31,10 @@ class BACalculatorViewModel @Inject constructor(
         preferencesManager.setPreferenceSelected(isPreferencesSelected)
     }
 
+    fun deleteAllAddedDrinks() = viewModelScope.launch {
+        addedDrinkDao.deleteAll()
+    }
+
     fun calculateAndShowBACAndTimeUntilSober(addedDrinks: List<AddedDrink>) {
 
         val bacInPercent = calculateBacInPercentForDrinks(addedDrinks)
