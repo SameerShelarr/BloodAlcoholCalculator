@@ -105,4 +105,8 @@ class AddDrinksAndDrinksHistoryViewModel @Inject constructor(
     sealed class AddDrinkEvent {
         data class ShowSelectDrinkSnack(val message: String) : AddDrinkEvent()
     }
+
+    fun deleteAllAddedDrinks() = viewModelScope.launch {
+        addedDrinkDao.deleteAll()
+    }
 }

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -59,14 +60,18 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                 horizontalScrollView.isVisible = false
                 selectStartTimeLayout.isVisible = false
 
-                drinksHistoryTitleText.isVisible = true
+                clearAllAddedDrinksButton.isVisible = true
+
+                clearAllAddedDrinksButton.setOnClickListener {
+                    viewModel.deleteAllAddedDrinks()
+                }
 
                 val constraintSetForRecyclerView = ConstraintSet()
                 constraintSetForRecyclerView.clone(addDrinkBottomSheetLayout)
                 constraintSetForRecyclerView.connect(
                     drinksRecyclerViewScrollView.id,
                     ConstraintSet.TOP,
-                    drinksHistoryTitleText.id,
+                    clearAllAddedDrinksButton.id,
                     ConstraintSet.BOTTOM,
                     0
                 )
@@ -85,10 +90,21 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                     if (addedDrinks.isEmpty()) {
                         drinksProgressBar.isVisible = false
                         drinksHistoryEmptyText.isVisible = true
+                        clearAllAddedDrinksButton.isEnabled = false
+                        clearAllAddedDrinksButton.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.button_background_disabled
+                        )
+
                         adapter.setData(listOf())
                     } else {
                         drinksProgressBar.isVisible = false
                         drinksHistoryEmptyText.isVisible = false
+                        clearAllAddedDrinksButton.isEnabled = true
+                        clearAllAddedDrinksButton.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.button_background
+                        )
 
                         adapter.setData(getDrinksFromAddedDrinksList(addedDrinks))
 
@@ -106,7 +122,7 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                 horizontalScrollView.isVisible = true
                 selectStartTimeLayout.isVisible = true
 
-                drinksHistoryTitleText.isVisible = false
+                clearAllAddedDrinksButton.isVisible = false
 
                 adapter = DrinksListAdapter(arrayListOf(), false)
 

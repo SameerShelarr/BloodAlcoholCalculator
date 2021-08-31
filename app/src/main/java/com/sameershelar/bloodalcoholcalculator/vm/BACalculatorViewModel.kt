@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BACalculatorViewModel @Inject constructor(
     private val preferencesManager: PreferencesManager,
-    private val addedDrinkDao: AddedDrinkDao,
+    addedDrinkDao: AddedDrinkDao,
 ) : ViewModel() {
 
     private val bacMutableLive: MutableLiveData<Double> = MutableLiveData()
@@ -29,10 +29,6 @@ class BACalculatorViewModel @Inject constructor(
 
     fun updateIsPreferencesSelected(isPreferencesSelected: Boolean) = viewModelScope.launch {
         preferencesManager.setPreferenceSelected(isPreferencesSelected)
-    }
-
-    fun deleteAllAddedDrinks() = viewModelScope.launch {
-        addedDrinkDao.deleteAll()
     }
 
     fun calculateAndShowBACAndTimeUntilSober(addedDrinks: List<AddedDrink>) {
