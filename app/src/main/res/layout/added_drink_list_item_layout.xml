@@ -11,7 +11,7 @@
         android:id="@+id/drink_image_view"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/drink_icon_default"
+        android:src="@drawable/ic_drink_icon_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
