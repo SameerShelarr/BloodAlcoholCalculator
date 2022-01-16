@@ -37,4 +37,5 @@
     <string name="contact_developer">Contact Developer</string>
     <string name="email_id_of_developer">workingshelar@gmail.com</string>
     <string name="clear_all">Clear All</string>
+    <string name="feedback_email_subject">Feedback for Blood Alcohol Calculator app</string>
 </resources>

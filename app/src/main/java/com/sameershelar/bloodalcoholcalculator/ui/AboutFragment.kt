@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.sameershelar.bloodalcoholcalculator.R
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentAboutBinding
+import java.lang.StringBuilder
+import java.net.URLEncoder
 
 class AboutFragment : Fragment() {
 
@@ -27,21 +29,16 @@ class AboutFragment : Fragment() {
 
         binding.apply {
             emailImageButton.setOnClickListener {
-                val intent = Intent(Intent.ACTION_SEND).apply {
-                    data = Uri.parse("mailto:")
-                    type = "text/plain"
-                    putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email_id_of_developer)))
-                    putExtra(Intent.EXTRA_SUBJECT, "Feedback for Blood Alcohol Calculator app")
-                }
-                if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "No suitable application found, Cannot send email.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                val builder = StringBuilder(
+                    "mailto:" +
+                            Uri.encode(getString(R.string.email_id_of_developer))
+                )
+                builder.append(
+                    "?subject=" + getString(R.string.feedback_email_subject)
+                )
+                val uri = builder.toString()
+                val intent = Intent(Intent.ACTION_SENDTO, Uri.parse(uri))
+                startActivity(intent)
             }
 
         }
