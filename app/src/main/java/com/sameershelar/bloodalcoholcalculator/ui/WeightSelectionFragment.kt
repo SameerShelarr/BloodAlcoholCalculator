@@ -40,6 +40,8 @@ class WeightSelectionFragment : Fragment() {
             weightPicker.minValue = 20
             weightPicker.maxValue = 200
 
+            weightPicker.value = 60
+
             if (args.isFromSetting) {
                 viewModel.onWeightSelected(weightPicker.value)
             }

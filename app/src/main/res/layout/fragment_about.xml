@@ -19,7 +19,7 @@
             android:id="@+id/appCompatImageView"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:src="@drawable/drink_icon_default"
+            android:src="@drawable/ic_drink_icon_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

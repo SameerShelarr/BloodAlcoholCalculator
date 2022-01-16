@@ -8,7 +8,7 @@
     <string name="add_drink">Drink</string>
     <string name="estimated_blood_alcohol_content">Estimated Blood Alcohol Content</string>
     <string name="estimated_time_until_fully_sober">Estimated Time Until Fully Sober</string>
-    <string name="legal_limit_0_03">Legal Limit: 0.03%</string>
+    <string name="legal_limit_0_03">Legal Limit (India): 0.03%</string>
     <string name="add">Add</string>
     <string name="beer">Beer</string>
     <string name="vodka">Vodka</string>
