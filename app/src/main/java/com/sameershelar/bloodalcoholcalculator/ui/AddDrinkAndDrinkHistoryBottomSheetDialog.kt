@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -21,8 +22,8 @@ import com.sameershelar.bloodalcoholcalculator.R
 import com.sameershelar.bloodalcoholcalculator.data.tables.AddedDrink
 import com.sameershelar.bloodalcoholcalculator.data.tables.Drink
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentAddDrinkAndDrinkHistoryBottomSheetDialogBinding
-import com.sameershelar.bloodalcoholcalculator.utils.Constants.DrinkType.*
 import com.sameershelar.bloodalcoholcalculator.utils.exhaustive
+import com.sameershelar.bloodalcoholcalculator.utils.navigateSafe
 import com.sameershelar.bloodalcoholcalculator.vm.AddDrinksAndDrinksHistoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -48,6 +49,13 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
         binding = FragmentAddDrinkAndDrinkHistoryBottomSheetDialogBinding.inflate(layoutInflater)
 
         binding.apply {
+
+            addCustomDrinkButton.setOnClickListener {
+                findNavController().navigateSafe(
+                    AddDrinkAndDrinkHistoryBottomSheetDialogDirections
+                        .actionAddDrinkBottomSheetDialogToAddCustomDrinkDialogFragment()
+                )
+            }
 
             addDrinkBottomSheetLayout.layoutParams.height =
                 Resources.getSystem().displayMetrics.heightPixels / 10 * 8

@@ -74,6 +74,10 @@ class AddDrinksAndDrinksHistoryViewModel @Inject constructor(
                 drinksList.filter { drink -> drink.type == Constants.DrinkType.BRANDY }
             }
 
+            R.id.custom_chip -> {
+                drinksList.filter { drink -> drink.type == Constants.DrinkType.CUSTOM }
+            }
+
             else -> {
                 arrayListOf()
             }

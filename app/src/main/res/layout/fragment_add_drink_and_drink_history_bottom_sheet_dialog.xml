@@ -167,6 +167,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/select_start_time_layout" />
 
+        <ImageView
+            android:id="@+id/add_custom_drink_button"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_baseline_add"
+            android:background="?selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="@+id/search_drink"
+            app:layout_constraintStart_toEndOf="@+id/search_drink"
+            app:layout_constraintTop_toTopOf="@+id/search_drink" />
+
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
             android:layout_width="0dp"
@@ -174,7 +185,7 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/search_drink"
+            app:layout_constraintStart_toEndOf="@+id/add_custom_drink_button"
             app:layout_constraintTop_toBottomOf="@+id/select_start_time_layout">
 
             <com.google.android.material.chip.ChipGroup
@@ -250,6 +261,14 @@
                     android:checkable="true"
                     android:text="@string/brandy" />
 
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/custom_chip"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:text="@string/custom" />
+
             </com.google.android.material.chip.ChipGroup>
 
         </HorizontalScrollView>
@@ -274,7 +293,6 @@
             app:layout_constraintTop_toBottomOf="@+id/search_drink">
 
             <LinearLayout
-                android:id="@+id/layout_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
