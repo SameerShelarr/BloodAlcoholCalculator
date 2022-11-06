@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -21,8 +22,9 @@ import com.sameershelar.bloodalcoholcalculator.R
 import com.sameershelar.bloodalcoholcalculator.data.tables.AddedDrink
 import com.sameershelar.bloodalcoholcalculator.data.tables.Drink
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentAddDrinkAndDrinkHistoryBottomSheetDialogBinding
-import com.sameershelar.bloodalcoholcalculator.utils.Constants.DrinkType.*
 import com.sameershelar.bloodalcoholcalculator.utils.exhaustive
+import com.sameershelar.bloodalcoholcalculator.utils.navigateSafe
+import com.sameershelar.bloodalcoholcalculator.vm.AddCustomDrinkViewModel
 import com.sameershelar.bloodalcoholcalculator.vm.AddDrinksAndDrinksHistoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -38,7 +40,8 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
 
     private lateinit var binding: FragmentAddDrinkAndDrinkHistoryBottomSheetDialogBinding
     private lateinit var adapter: DrinksListAdapter
-    private val viewModel: AddDrinksAndDrinksHistoryViewModel by viewModels()
+    private val addDrinksAndDrinksHistoryViewModel: AddDrinksAndDrinksHistoryViewModel by viewModels()
+    private val addCustomDrinkViewModel: AddCustomDrinkViewModel by viewModels()
     private val args: AddDrinkAndDrinkHistoryBottomSheetDialogArgs by navArgs()
 
     override fun onCreateView(
@@ -48,6 +51,16 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
         binding = FragmentAddDrinkAndDrinkHistoryBottomSheetDialogBinding.inflate(layoutInflater)
 
         binding.apply {
+
+            addCustomDrinkButton.setOnClickListener {
+                findNavController().navigateSafe(
+                    AddDrinkAndDrinkHistoryBottomSheetDialogDirections
+                        .actionAddDrinkBottomSheetDialogToAddCustomDrinkDialogFragment()
+                )
+                chipGroup.clearCheck()
+                customChip.isChecked = true
+                adapter.setData(addDrinksAndDrinksHistoryViewModel.sortDrinksAccordingToCategorySelected(customChip.id))
+            }
 
             addDrinkBottomSheetLayout.layoutParams.height =
                 Resources.getSystem().displayMetrics.heightPixels / 10 * 8
@@ -63,7 +76,7 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                 clearAllAddedDrinksButton.isVisible = true
 
                 clearAllAddedDrinksButton.setOnClickListener {
-                    viewModel.deleteAllAddedDrinks()
+                    addDrinksAndDrinksHistoryViewModel.deleteAllAddedDrinks()
                 }
 
                 val constraintSetForRecyclerView = ConstraintSet()
@@ -83,7 +96,7 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                     this@AddDrinkAndDrinkHistoryBottomSheetDialog
                 )
 
-                viewModel.addedDrinksLive.observe(viewLifecycleOwner) { addedDrinks ->
+                addDrinksAndDrinksHistoryViewModel.addedDrinksLive.observe(viewLifecycleOwner) { addedDrinks ->
 
                     Log.d(TAG, "onCreateView: Added drinks list size is ${addedDrinks.size}")
 
@@ -127,7 +140,7 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                 adapter = DrinksListAdapter(arrayListOf(), false)
 
                 chipGroup.setOnCheckedChangeListener { _, checkedId ->
-                    adapter.setData(viewModel.sortDrinksAccordingToCategorySelected(checkedId))
+                    adapter.setData(addDrinksAndDrinksHistoryViewModel.sortDrinksAccordingToCategorySelected(checkedId))
                 }
 
                 incrementQtyButton.setOnClickListener {
@@ -152,12 +165,12 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
 
                 addDrinkButton.setOnClickListener {
                     val drink =
-                        viewModel.addSelectedDrinkOrShowError(getString(R.string.please_select_a_drink))
+                        addDrinksAndDrinksHistoryViewModel.addSelectedDrinkOrShowError(getString(R.string.please_select_a_drink))
                     drink?.let {
-                        drink.quantity = qtyText.text.toString().toInt()
-                        drink.startedMinsAgo = startTimeText.text.toString().toInt()
+                        it.quantity = qtyText.text.toString().toInt()
+                        it.startedMinsAgo = startTimeText.text.toString().toInt()
 
-                        viewModel.addDrink(drink)
+                        addDrinksAndDrinksHistoryViewModel.addDrink(drink)
 
                         dismiss()
                     }
@@ -239,7 +252,7 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
-                        adapter.setData(viewModel.drinksList.filter { drink ->
+                        adapter.setData(addDrinksAndDrinksHistoryViewModel.drinksList.filter { drink ->
                             drink.name.lowercase().contains(newText?.lowercase() ?: "")
                         })
                         return false
@@ -252,16 +265,16 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
         }
 
         if (!args.isHistoryMode) {
-            viewModel.getAllDrinksLive().observe(viewLifecycleOwner) {
-                viewModel.drinksList = it as MutableList<Drink>
-                val allList = viewModel.drinksList
+            addDrinksAndDrinksHistoryViewModel.getAllDrinksLive().observe(viewLifecycleOwner) {
+                addDrinksAndDrinksHistoryViewModel.drinksList = it as MutableList<Drink>
+                val allList = addDrinksAndDrinksHistoryViewModel.drinksList
                 adapter.setData(allList)
                 binding.drinksProgressBar.isVisible = false
             }
         }
 
         lifecycleScope.launch {
-            viewModel.addDrinkTaskEvent.collect { event ->
+            addDrinksAndDrinksHistoryViewModel.addDrinkTaskEvent.collect { event ->
                 when (event) {
                     is AddDrinksAndDrinksHistoryViewModel.AddDrinkEvent.ShowSelectDrinkSnack -> {
                         Snackbar.make(requireView(), event.message, Snackbar.LENGTH_SHORT).show()
@@ -278,6 +291,6 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
 
     override fun onDeleteAddedDrink(drink: Drink) {
         Log.d(TAG, "onDeleteAddedDrink: delete clicked for ${drink.name}, ${drink.volume} ml")
-        viewModel.removeDrink(drink)
+        addDrinksAndDrinksHistoryViewModel.removeDrink(drink)
     }
 }

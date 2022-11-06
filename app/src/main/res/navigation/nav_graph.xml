@@ -70,10 +70,18 @@
             android:defaultValue="false"
             app:argType="boolean"
             app:nullable="false" />
+        <action
+            android:id="@+id/action_addDrinkBottomSheetDialog_to_addCustomDrinkDialogFragment"
+            app:destination="@id/addCustomDrinkDialogFragment" />
     </dialog>
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.sameershelar.bloodalcoholcalculator.ui.AboutFragment"
         android:label="@string/about"
         tools:layout="@layout/fragment_about" />
+    <dialog
+        android:id="@+id/addCustomDrinkDialogFragment"
+        android:name="com.sameershelar.bloodalcoholcalculator.ui.AddCustomDrinkDialogFragment"
+        android:label="fragment_add_custom_drink_dialog"
+        tools:layout="@layout/fragment_add_custom_drink_dialog" />
 </navigation>

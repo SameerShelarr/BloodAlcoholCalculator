@@ -38,4 +38,7 @@
     <string name="email_id_of_developer">workingshelar@gmail.com</string>
     <string name="clear_all">Clear All</string>
     <string name="feedback_email_subject">Feedback for Blood Alcohol Calculator app</string>
+    <string name="custom">Custom</string>
+    <string name="drink_name">Drink Name</string>
+    <string name="volume">Volume e.g. 350 ml</string>
 </resources>
