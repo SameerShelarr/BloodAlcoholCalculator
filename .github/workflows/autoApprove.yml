@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/github-script@v6
       name: Approve LGTM Review
-      if: github.actor == 'SameerShelarr' &&  contains(github.event.comment.body, '/autoapprove')
+      if: github.actor == 'SameerShelarr' &&  contains(github.event.comment.body, '//autoapprove')
       with:
         script: |
           github.rest.pulls.createReview({
