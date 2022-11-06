@@ -57,6 +57,9 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                     AddDrinkAndDrinkHistoryBottomSheetDialogDirections
                         .actionAddDrinkBottomSheetDialogToAddCustomDrinkDialogFragment()
                 )
+                chipGroup.clearCheck()
+                customChip.isChecked = true
+                adapter.setData(addDrinksAndDrinksHistoryViewModel.sortDrinksAccordingToCategorySelected(customChip.id))
             }
 
             addDrinkBottomSheetLayout.layoutParams.height =
@@ -164,8 +167,8 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
                     val drink =
                         addDrinksAndDrinksHistoryViewModel.addSelectedDrinkOrShowError(getString(R.string.please_select_a_drink))
                     drink?.let {
-                        drink.quantity = qtyText.text.toString().toInt()
-                        drink.startedMinsAgo = startTimeText.text.toString().toInt()
+                        it.quantity = qtyText.text.toString().toInt()
+                        it.startedMinsAgo = startTimeText.text.toString().toInt()
 
                         addDrinksAndDrinksHistoryViewModel.addDrink(drink)
 
