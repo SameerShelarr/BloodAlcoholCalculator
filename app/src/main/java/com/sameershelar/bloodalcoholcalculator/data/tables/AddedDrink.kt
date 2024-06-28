@@ -2,7 +2,6 @@ package com.sameershelar.bloodalcoholcalculator.data.tables
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
-import androidx.room.ColumnInfo.TEXT
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
@@ -17,7 +16,7 @@ data class AddedDrink(
     val id: Int = 0,
 
     @ColumnInfo(
-        typeAffinity = TEXT
+        typeAffinity = ColumnInfo.TEXT
     ) @TypeConverters(DrinkConverter::class)
     var drink: Drink,
 
