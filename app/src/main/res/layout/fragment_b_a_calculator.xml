@@ -32,9 +32,11 @@
                 android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/legal_limit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/legal_limit_0_03"
+                android:text="@string/legal_limit_template"
+                tools:text="Legal Limit (India): 0.03%"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
