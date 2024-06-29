@@ -33,7 +33,7 @@ class GenderSelectionFragment : Fragment() {
             }
 
             nextButton.setOnClickListener {
-                findNavController().navigate(GenderSelectionFragmentDirections.actionGenderSelectionFragmentToBACCalculatorFragment())
+                findNavController().navigate(GenderSelectionFragmentDirections.actionGenderSelectionFragmentToCountrySelectionFragment())
             }
 
             viewModel.onGenderSelected(Gender.FEMALE)
