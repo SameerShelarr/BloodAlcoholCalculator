@@ -21,11 +21,9 @@ import com.sameershelar.bloodalcoholcalculator.R
 import com.sameershelar.bloodalcoholcalculator.data.tables.AddedDrink
 import com.sameershelar.bloodalcoholcalculator.data.tables.Drink
 import com.sameershelar.bloodalcoholcalculator.databinding.FragmentAddDrinkAndDrinkHistoryBottomSheetDialogBinding
-import com.sameershelar.bloodalcoholcalculator.utils.Constants.DrinkType.*
 import com.sameershelar.bloodalcoholcalculator.utils.exhaustive
 import com.sameershelar.bloodalcoholcalculator.vm.AddDrinksAndDrinksHistoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -124,6 +122,7 @@ class AddDrinkAndDrinkHistoryBottomSheetDialog : BottomSheetDialogFragment(),
 
                 clearAllAddedDrinksButton.isVisible = false
 
+                // TODO remove lag when the drinks bottom sheet is opened and the drinks are loading
                 adapter = DrinksListAdapter(arrayListOf(), false)
 
                 chipGroup.setOnCheckedChangeListener { _, checkedId ->
