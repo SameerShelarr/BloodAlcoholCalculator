@@ -10,5 +10,6 @@ object Constants {
         WINE,
         GIN,
         BRANDY,
+        CUSTOM,
     }
 }
