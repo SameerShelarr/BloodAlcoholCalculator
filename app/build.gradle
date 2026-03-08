@@ -1,19 +1,30 @@
 plugins {
-    id 'com.android.application'
+    id "com.android.application"
     id("dagger.hilt.android.plugin")
-    id 'kotlin-android'
+    id "kotlin-android"
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
     id 'kotlin-parcelize'
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     signingConfigs {
         release {
-            storeFile file('/Users/sameershelar/BAC App keystore/keystore')
-            storePassword 'Sameeromon@1397'
-            keyAlias 'key0'
-            keyPassword 'Sameeromon@1397'
+             if (keystorePropertiesFile.exists()) {
+                def sf = file(keystoreProperties['storeFile'])
+                if (sf.exists()) {
+                    storeFile = sf
+                    storePassword = keystoreProperties['storePassword']
+                    keyAlias = keystoreProperties['keyAlias']
+                    keyPassword = keystoreProperties['keyPassword']
+                }
+            }
         }
     }
     compileSdkVersion 36
@@ -33,7 +44,9 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            if (signingConfigs.release.storeFile?.exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     compileOptions {
