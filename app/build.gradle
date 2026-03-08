@@ -8,20 +8,20 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        release {
-            storeFile file('/Users/sameershelar/BAC App keystore/keystore')
-            storePassword 'Sameeromon@1397'
-            keyAlias 'key0'
-            keyPassword 'Sameeromon@1397'
-        }
-    }
-    compileSdkVersion 34
+//    signingConfigs {
+//        release {
+//            storeFile file('/Users/sameershelar/BAC App keystore/keystore')
+//            storePassword 'Sameeromon@1397'
+//            keyAlias 'key0'
+//            keyPassword 'Sameeromon@1397'
+//        }
+//    }
+    compileSdkVersion 36
 
     defaultConfig {
         applicationId "com.sameershelar.bloodalcoholcalculator"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -33,15 +33,15 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     buildFeatures {
