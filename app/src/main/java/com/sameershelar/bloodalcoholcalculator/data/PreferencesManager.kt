@@ -2,8 +2,10 @@ package com.sameershelar.bloodalcoholcalculator.data
 
 import android.content.Context
 import android.util.Log
-import androidx.datastore.preferences.*
-import androidx.lifecycle.asLiveData
+import androidx.datastore.preferences.createDataStore
+import androidx.datastore.preferences.edit
+import androidx.datastore.preferences.emptyPreferences
+import androidx.datastore.preferences.preferencesKey
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -24,6 +26,8 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     data class PreferencesData(
         var weight: Int,
         var gender: Gender,
+        var country: String,
+        val countryLimit: Float,
         var isPreferencesSelected: Boolean,
     )
 
@@ -33,7 +37,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
                 Log.e(TAG, "Error reading preferences", exception)
                 emit(emptyPreferences())
             } else {
-                throw exception;
+                throw exception
             }
         }
         .map { preferences ->
@@ -41,9 +45,11 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             val gender = Gender.valueOf(
                 preferences[PreferencesKeys.GENDER] ?: Gender.MALE.name
             )
+            val country = preferences[PreferencesKeys.COUNTRY] ?: "India"
+            val countryBacLimit = preferences[PreferencesKeys.COUNTRY_BAC_LIMIT] ?: 0.03f
             val isPreferencesSelected = preferences[PreferencesKeys.IS_PREFERENCES_SELECTED] ?: false
 
-            PreferencesData(weight, gender, isPreferencesSelected)
+            PreferencesData(weight, gender, country, countryBacLimit, isPreferencesSelected)
         }
 
     suspend fun getWeight() = dataStore.data.map { preferences ->
@@ -54,6 +60,14 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         Gender.valueOf(
             preferences[PreferencesKeys.GENDER] ?: Gender.MALE.name
         )
+    }.first()
+
+    suspend fun getCountry() = dataStore.data.map { preferences ->
+        preferences[PreferencesKeys.COUNTRY] ?: "India"
+    }.first()
+
+    suspend fun getBacLimit() = dataStore.data.map { preferences ->
+        preferences[PreferencesKeys.COUNTRY_BAC_LIMIT] ?: 0.03f
     }.first()
 
     suspend fun updateGender(gender: Gender) {
@@ -68,6 +82,18 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         }
     }
 
+    suspend fun updateCountry(country: String) {
+        dataStore.edit {
+            it[PreferencesKeys.COUNTRY] = country
+        }
+    }
+
+    suspend fun updateBacLimit(limit: Float) {
+        dataStore.edit {
+            it[PreferencesKeys.COUNTRY_BAC_LIMIT] = limit
+        }
+    }
+
     suspend fun setPreferenceSelected(isPreferencesSelected: Boolean) {
         dataStore.edit {
             it[PreferencesKeys.IS_PREFERENCES_SELECTED] = isPreferencesSelected
@@ -77,6 +103,8 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     private object PreferencesKeys {
         val GENDER = preferencesKey<String>("gender")
         val WEIGHT = preferencesKey<Int>("weight")
+        val COUNTRY = preferencesKey<String>("country")
+        val COUNTRY_BAC_LIMIT = preferencesKey<Float>("country_bac_limit")
         val IS_PREFERENCES_SELECTED = preferencesKey<Boolean>("is_preferences_selected")
     }
 }

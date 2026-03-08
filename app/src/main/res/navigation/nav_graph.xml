@@ -29,7 +29,16 @@
         android:label="Select Gender"
         tools:layout="@layout/fragment_gender_selection">
         <action
-            android:id="@+id/action_genderSelectionFragment_to_BACCalculatorFragment"
+            android:id="@+id/action_genderSelectionFragment_to_countrySelectionFragment"
+            app:destination="@id/countrySelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/countrySelectionFragment"
+        android:name="com.sameershelar.bloodalcoholcalculator.ui.CountrySelectionFragment"
+        android:label="Select Country"
+        tools:layout="@layout/fragment_country_selection">
+        <action
+            android:id="@+id/action_countrySelectionFragment_to_BACCalculatorFragment"
             app:destination="@id/BACCalculatorFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/nav_graph"

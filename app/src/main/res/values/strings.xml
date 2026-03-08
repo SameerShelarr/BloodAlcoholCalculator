@@ -4,11 +4,12 @@
     <string name="kg">Kg.</string>
     <string name="next">Next</string>
     <string name="my_gender_is">My gender is…</string>
+    <string name="my_country_is">My country is…</string>
     <string name="previous">Previous</string>
     <string name="add_drink">Drink</string>
     <string name="estimated_blood_alcohol_content">Estimated Blood Alcohol Content</string>
     <string name="estimated_time_until_fully_sober">Estimated Time Until Fully Sober</string>
-    <string name="legal_limit_0_03">Legal Limit (India): 0.03%</string>
+    <string name="legal_limit_template">Legal Limit (%1$s): %2$.2f%%</string>
     <string name="add">Add</string>
     <string name="beer">Beer</string>
     <string name="vodka">Vodka</string>
@@ -38,4 +39,5 @@
     <string name="email_id_of_developer">workingshelar@gmail.com</string>
     <string name="clear_all">Clear All</string>
     <string name="feedback_email_subject">Feedback for Blood Alcohol Calculator app</string>
+    <string name="country">Country</string>
 </resources>

@@ -5,7 +5,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -33,6 +38,8 @@ class BACalculatorFragment : Fragment() {
     private val viewModel: BACalculatorViewModel by viewModels()
     private var weight = 20
     private var gender = Gender.MALE
+    private var country = "India"
+    private var countryBacLimit = 0.03f
     private var countDownTimer: CountDownTimer? = null
 
     override fun onCreateView(
@@ -66,10 +73,15 @@ class BACalculatorFragment : Fragment() {
         viewModel.getPreferencesFlow().observe(viewLifecycleOwner) {
             weight = it.weight
             gender = it.gender
+            country = it.country
+            countryBacLimit = it.countryLimit
+
+            binding.legalLimitText.text =
+                getString(R.string.legal_limit_template, country, countryBacLimit)
         }
 
         viewModel.bacLive.observe(viewLifecycleOwner) { bac ->
-            if (bac > 0.03) {
+            if (bac > countryBacLimit) {
                 binding.apply {
                     bloodAlcoholContentText.setTextColor(Color.RED)
                     addDrinkFab.setBackgroundColor(Color.RED)
@@ -171,6 +183,7 @@ class BACalculatorFragment : Fragment() {
                 }
                 true
             }
+
             R.id.settings_options_menu_button -> {
                 findNavController().navigateSafe(
                     BACalculatorFragmentDirections.actionBACCalculatorFragmentToWeightSelectionFragment(
@@ -179,12 +192,14 @@ class BACalculatorFragment : Fragment() {
                 )
                 true
             }
+
             R.id.about_options_menu_button -> {
                 findNavController().navigateSafe(
                     BACalculatorFragmentDirections.actionBACCalculatorFragmentToAboutFragment()
                 )
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
 }
